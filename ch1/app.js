@@ -16,7 +16,14 @@ app.use((req, res, next) => {
     console.log('모든 요청 실행')
     next();
 });
-app.use(morgan('dev')); //combined, common, short, tiny 등등의 값을 가짐 개발환경에서는 dev 배포환경에서는 combined를 사용함 dev기준{ GET / 500 7.409ms - 50 } = [HTTP메서드] [주소] [HTTP상태코드] [응답 속도] - [응답 바이트]
+
+app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production') {
+        morgan('combined')(req, res, next);
+    } else {
+        morgan('dev')(req, res, next);
+    }
+}); //combined, common, short, tiny 등등의 값을 가짐 개발환경에서는 dev 배포환경에서는 combined를 사용함 dev기준{ GET / 500 7.409ms - 50 } = [HTTP메서드] [주소] [HTTP상태코드] [응답 속도] - [응답 바이트]
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public'))); // '요청경로' , '실제경로' 
 app.use(express.urlencoded({ extended: false })); // false 노드의 querystring 모듈을 사용하여 쿼리스트링을 해석함, true qs 모듈을 사용하여 쿼리스트링을 해석한다. qs모듈은 내장 모듈이 아니라 npm 패키지 모듈이다.
@@ -34,6 +41,16 @@ app.use(session({
 
 app.use((req, res, next) => {
     console.log('모든 요청 수행');
+    res.cookie('name', 'kzv_cookie', {
+        expires: new Date(Date.now() + 90000),
+        httpOnly: true,
+        secure: true
+    })
+
+    // res.session.name = 'kzv_session'; //세션 등록
+    // req.sessionID; // 세션 아이디 확인
+    // res.session.destory(); //세션 모두 제거
+    // res.clearCookie('name', 'kzv', { httpOnly: true, secure: true });
     next();
 })
 
