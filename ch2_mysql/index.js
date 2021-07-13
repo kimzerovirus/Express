@@ -11,7 +11,7 @@ const app = express();
 //         console.log(err)
 //     })
 
-
+// mysql
 // const mysql = require('mysql');
 // const db = mysql.createConnection({
 //     host: conf.DBHost,
@@ -24,6 +24,7 @@ const app = express();
 // });
 // db.connect()
 
+//mariadb
 const mariadb = require('mariadb');
 mariadb.createConnection({
     host: conf.DBHost,
