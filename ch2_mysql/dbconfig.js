@@ -1,6 +1,12 @@
-module.exports = {
-    DBHost: '127.0.0.1',
-    DBPort: 3990,
-    DBUser: 'root',
-    DBPass: '1541',
-}
+const mysql = require("mysql");
+
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+});
+
+db.connect();
+
+module.exports = db;
