@@ -50,7 +50,7 @@ app.get('/generate', (req, res) => {
 });
 
 app.get('/verify', verifyToken, (req, res) => {
-  res.json(req.decode);
+  res.send(req.decode);
 });
 
 const port = process.env.PORT || 3000;

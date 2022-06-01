@@ -14,7 +14,7 @@ exports.verifyToken = (req, res, next) => {
     }
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      req.status(419).json({
+      return res.status(419).json({
         code: 419,
         message: '토큰 만료',
       });
