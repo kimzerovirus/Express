@@ -35,6 +35,12 @@ app.get('/generate', (req, res) => {
         issuer: 'kzv', // 발급자
       },
     );
+    
+    res.cookie('userid', token, {
+        maxAge: 6*60*60*1000,
+        httpOnly: true,
+        path:'/'
+    });
 
     res.status(200).json({
       status: 'success',
@@ -50,7 +56,7 @@ app.get('/generate', (req, res) => {
 });
 
 app.get('/verify', verifyToken, (req, res) => {
-  res.send(req.decode);
+  res.status(200).json({user:req.decode});
 });
 
 const port = process.env.PORT || 3000;
